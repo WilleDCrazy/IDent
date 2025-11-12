@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <div class="container">
+        <div class="about-header">
+            <h1 class="page-title">About IDent</h1>
+            <p class="page-subtitle">
+                Advanced stylometric analysis for Swedish text identification
+            </p>
+        </div>
+
+        <div class="about-content">
+            <section class="about-section">
+                <h2 class="section-title">What is IDent?</h2>
+                <div class="content-block">
+                    <p>
+                        IDent is a sophisticated text analysis system designed to extract and analyze
+                        writing style patterns from Swedish text. Unlike content-based analysis, IDent
+                        focuses on <strong>how</strong> someone writes, not <strong>what</strong> they write about.
+                    </p>
+                    <p>
+                        By analyzing 67+ linguistic and stylometric features, IDent creates unique
+                        fingerprints of writing styles that remain consistent across different topics
+                        and contexts. This makes it valuable for author identification, text comparison,
+                        and style analysis.
+                    </p>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">How It Works</h2>
+                <div class="content-block">
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">01</div>
+                            <div class="step-content">
+                                <h3>Text Preprocessing</h3>
+                                <p>
+                                    Input text is tokenized into words and sentences using
+                                    Swedish-aware regex patterns, preserving linguistic structure.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="process-step">
+                            <div class="step-number">02</div>
+                            <div class="step-content">
+                                <h3>Feature Extraction</h3>
+                                <p>
+                                    Five parallel analysis modules extract features:
+                                    <strong>Lexical</strong> (19 features),
+                                    <strong>Syntactic</strong> (13 features),
+                                    <strong>Character</strong> (19 features),
+                                    <strong>Swedish-Specific</strong> (11 features), and
+                                    <strong>Stylometric</strong> (10 features).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="process-step">
+                            <div class="step-number">03</div>
+                            <div class="step-content">
+                                <h3>Profile Creation</h3>
+                                <p>
+                                    Extracted features are normalized and combined into a
+                                    high-dimensional style profile representing the text's unique signature.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="process-step">
+                            <div class="step-number">04</div>
+                            <div class="step-content">
+                                <h3>Comparison & Visualization</h3>
+                                <p>
+                                    Profiles are compared using distance metrics (cosine, euclidean, manhattan)
+                                    and projected onto 2D space using PCA or t-SNE for visualization.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">Feature Categories</h2>
+                <div class="features-grid-about">
+                    <div class="feature-category">
+                        <h3>Lexical Features</h3>
+                        <ul class="feature-list">
+                            <li>Vocabulary richness (Type-Token Ratio, MTLD)</li>
+                            <li>Word length distributions</li>
+                            <li>Hapax legomena ratios</li>
+                            <li>Lexical density and diversity</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-category">
+                        <h3>Syntactic Features</h3>
+                        <ul class="feature-list">
+                            <li>Sentence length patterns</li>
+                            <li>Punctuation usage (19 types)</li>
+                            <li>Sentence complexity metrics</li>
+                            <li>Structural patterns</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-category">
+                        <h3>Character-Level</h3>
+                        <ul class="feature-list">
+                            <li>Character frequency distributions</li>
+                            <li>Case usage patterns</li>
+                            <li>Vowel/consonant ratios</li>
+                            <li>Special character usage</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-category">
+                        <h3>Swedish-Specific</h3>
+                        <ul class="feature-list">
+                            <li>Swedish character frequency (å, ä, ö)</li>
+                            <li>Compound word detection</li>
+                            <li>Function word patterns</li>
+                            <li>Definite article usage</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-category">
+                        <h3>Stylometric</h3>
+                        <ul class="feature-list">
+                            <li>Yule's K (vocabulary richness)</li>
+                            <li>Simpson's D (diversity index)</li>
+                            <li>Shannon entropy</li>
+                            <li>Burstiness metrics</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">Use Cases</h2>
+                <div class="content-block">
+                    <ul class="use-case-list">
+                        <li>
+                            <strong>Author Attribution:</strong> Identify the likely author of
+                            anonymous or disputed texts by comparing against known writing samples.
+                        </li>
+                        <li>
+                            <strong>Plagiarism Detection:</strong> Detect potential plagiarism or
+                            ghostwriting by comparing stylistic consistency across texts.
+                        </li>
+                        <li>
+                            <strong>Forensic Linguistics:</strong> Support legal investigations by
+                            analyzing writing style in disputed documents.
+                        </li>
+                        <li>
+                            <strong>Academic Research:</strong> Study writing style evolution,
+                            authorship patterns, and linguistic variation.
+                        </li>
+                        <li>
+                            <strong>Content Verification:</strong> Verify claimed authorship of
+                            historical or literary texts through style comparison.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">Technical Details</h2>
+                <div class="content-block">
+                    <div class="tech-specs">
+                        <div class="tech-spec">
+                            <span class="spec-label">Language Support:</span>
+                            <span class="spec-value">Swedish (optimized)</span>
+                        </div>
+                        <div class="tech-spec">
+                            <span class="spec-label">Total Features:</span>
+                            <span class="spec-value">67+</span>
+                        </div>
+                        <div class="tech-spec">
+                            <span class="spec-label">Recommended Text Length:</span>
+                            <span class="spec-value">400+ words</span>
+                        </div>
+                        <div class="tech-spec">
+                            <span class="spec-label">Dimensionality Reduction:</span>
+                            <span class="spec-value">PCA, t-SNE</span>
+                        </div>
+                        <div class="tech-spec">
+                            <span class="spec-label">Similarity Metrics:</span>
+                            <span class="spec-value">Cosine, Euclidean, Manhattan</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

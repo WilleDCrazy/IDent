@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Demo{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="demo-page">
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1 class="page-title">Text Style Analysis</h1>
+            <p class="page-subtitle">Add multiple Swedish text samples for comparative analysis</p>
+        </div>
+
+        <div class="demo-content">
+            <!-- Left Panel: Text Input -->
+            <div class="demo-input-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Text Samples</h2>
+                    <button id="addTextBtn" class="btn btn-small">+ Add Text</button>
+                </div>
+
+                <div id="textsContainer" class="texts-container">
+                    <!-- Text inputs will be added here dynamically -->
+                </div>
+
+                <div class="panel-actions">
+                    <button id="analyzeBtn" class="btn btn-primary" disabled>Analyze Texts</button>
+                    <button id="clearBtn" class="btn btn-secondary">Clear All</button>
+                </div>
+
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+                <div id="loadingMessage" class="loading-message" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <span>Analyzing texts...</span>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results -->
+            <div class="demo-results-panel">
+                <div id="resultsPlaceholder" class="results-placeholder">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                    <p>Add at least 2 text samples to begin analysis</p>
+                </div>
+
+                <div id="resultsContent" class="results-content" style="display: none;">
+                    <!-- Tabs -->
+                    <div class="results-tabs">
+                        <button class="tab-btn active" data-tab="visualization">Visualization</button>
+                        <button class="tab-btn" data-tab="similarity">Similarity</button>
+                        <button class="tab-btn" data-tab="features">Features</button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content active" id="visualizationTab">
+                        <div class="viz-controls">
+                            <label class="viz-label">
+                                <input type="radio" name="vizMethod" value="pca" checked>
+                                <span>PCA</span>
+                            </label>
+                            <label class="viz-label">
+                                <input type="radio" name="vizMethod" value="tsne">
+                                <span>t-SNE</span>
+                            </label>
+                        </div>
+                        <div id="visualizationPlot" class="visualization-plot"></div>
+                        <div id="vizInfo" class="viz-info"></div>
+                    </div>
+
+                    <div class="tab-content" id="similarityTab">
+                        <div id="similarityMatrix" class="similarity-matrix"></div>
+                    </div>
+
+                    <div class="tab-content" id="featuresTab">
+                        <div id="featuresComparison" class="features-comparison"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+{% endblock %}
