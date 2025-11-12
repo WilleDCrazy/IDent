@@ -4,19 +4,19 @@ A comprehensive Python library for analyzing and comparing Swedish text writing 
 
 ## Features
 
-- **79+ Text Signals**: Comprehensive analysis including:
+- **89+ Text Signals**: Comprehensive analysis including:
   - Lexical features (vocabulary richness, word lengths, etc.)
   - Syntactic features (sentence structure, punctuation patterns)
   - Character-level analysis (character distributions, Swedish character usage)
   - Stylometric features (type-token ratio, hapax legomena, Yule's K)
   - Swedish-specific features (compound words, Swedish character frequency)
-  - **NEW: AI-detection features** (em dashes, transition words, sentence patterns, passive voice, etc.)
+  - **NEW: AI-detection features** (22 features including em dashes, transition words, sentence variability, rhythm patterns, lexical overlap, complexity variance, etc.)
 
 - **Style Profiling**: Create detailed profiles of writing styles from texts (400+ words recommended)
 
 - **Comparison & Similarity**: Compare text profiles using multiple distance metrics
 
-- **2D Visualization**: Generate PCA and t-SNE plots to visualize style differences
+- **2D Visualization**: Generate PCA plots to visualize style differences
 
 - **Simple API**: Easy-to-use interface for quick analysis
 
@@ -97,9 +97,6 @@ from ident.visualizer import visualize_profiles_2d, plot_feature_comparison
 
 # 2D visualization with PCA
 visualize_profiles_2d(profiles, method='pca', title='Text Style Comparison')
-
-# 2D visualization with t-SNE
-visualize_profiles_2d(profiles, method='tsne', perplexity=5)
 
 # Compare specific features
 plot_feature_comparison(profiles, features=['avg_word_length', 'type_token_ratio'])

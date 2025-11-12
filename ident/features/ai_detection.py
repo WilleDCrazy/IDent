@@ -169,4 +169,125 @@ class AIDetectionFeatures:
         parentheticals = text.count('(') + text.count('[')
         features['parenthetical_per_sentence'] = parentheticals / sentence_count if sentence_count > 0 else 0.0
 
+        # NEW FEATURES: Sentence-level variability analysis
+
+        # Feature 10: Punctuation diversity per sentence (AI has less diverse punctuation)
+        punctuation_per_sentence = []
+        for sent in sentences:
+            punct_types = set()
+            for char in sent:
+                if char in '.,!?;:—-()[]"\'':
+                    punct_types.add(char)
+            punctuation_per_sentence.append(len(punct_types))
+
+        if punctuation_per_sentence:
+            features['avg_punct_types_per_sentence'] = sum(punctuation_per_sentence) / len(punctuation_per_sentence)
+            # Variability in punctuation diversity across sentences
+            mean_punct = features['avg_punct_types_per_sentence']
+            if mean_punct > 0:
+                punct_variance = sum((p - mean_punct) ** 2 for p in punctuation_per_sentence) / len(punctuation_per_sentence)
+                features['punct_diversity_variance'] = punct_variance ** 0.5
+            else:
+                features['punct_diversity_variance'] = 0.0
+        else:
+            features['avg_punct_types_per_sentence'] = 0.0
+            features['punct_diversity_variance'] = 0.0
+
+        # Feature 11: Word length variability PER sentence (AI more consistent within sentences)
+        word_length_vars_per_sentence = []
+        for sent in sentences:
+            sent_words = re.findall(r'\b\w+\b', sent, re.UNICODE)
+            if len(sent_words) > 1:
+                lengths = [len(w) for w in sent_words]
+                mean_len = sum(lengths) / len(lengths)
+                var = sum((l - mean_len) ** 2 for l in lengths) / len(lengths)
+                word_length_vars_per_sentence.append(var ** 0.5)
+            else:
+                word_length_vars_per_sentence.append(0.0)
+
+        if word_length_vars_per_sentence:
+            features['avg_word_length_var_per_sentence'] = sum(word_length_vars_per_sentence) / len(word_length_vars_per_sentence)
+        else:
+            features['avg_word_length_var_per_sentence'] = 0.0
+
+        # Feature 12: Sentence rhythm patterns (consecutive short-long variations)
+        # AI tends to have more predictable rhythm
+        rhythm_changes = 0
+        if len(sentence_lengths) > 1:
+            for i in range(len(sentence_lengths) - 1):
+                curr_len = sentence_lengths[i]
+                next_len = sentence_lengths[i + 1]
+                # Significant change if difference > 30% of mean
+                if mean_length > 0 and abs(curr_len - next_len) > 0.3 * mean_length:
+                    rhythm_changes += 1
+            features['sentence_rhythm_variability'] = rhythm_changes / (len(sentence_lengths) - 1) if len(sentence_lengths) > 1 else 0.0
+        else:
+            features['sentence_rhythm_variability'] = 0.0
+
+        # Feature 13: Consecutive sentence similarity (AI repeats structures)
+        consecutive_similarities = []
+        for i in range(len(sentence_lengths) - 1):
+            curr_len = sentence_lengths[i]
+            next_len = sentence_lengths[i + 1]
+            # Normalized similarity (1 - normalized difference)
+            max_len = max(curr_len, next_len, 1)
+            similarity = 1.0 - abs(curr_len - next_len) / max_len
+            consecutive_similarities.append(similarity)
+
+        if consecutive_similarities:
+            features['consecutive_sentence_similarity'] = sum(consecutive_similarities) / len(consecutive_similarities)
+        else:
+            features['consecutive_sentence_similarity'] = 0.0
+
+        # Feature 14: Punctuation variance across sentences (AI more uniform punctuation)
+        punct_counts_per_sentence = []
+        for sent in sentences:
+            punct_count = sum(1 for char in sent if char in '.,!?;:—-()[]"\'')
+            punct_counts_per_sentence.append(punct_count)
+
+        if punct_counts_per_sentence and len(punct_counts_per_sentence) > 1:
+            mean_punct_count = sum(punct_counts_per_sentence) / len(punct_counts_per_sentence)
+            if mean_punct_count > 0:
+                punct_count_variance = sum((p - mean_punct_count) ** 2 for p in punct_counts_per_sentence) / len(punct_counts_per_sentence)
+                features['punctuation_variance_per_sentence'] = (punct_count_variance ** 0.5) / mean_punct_count
+            else:
+                features['punctuation_variance_per_sentence'] = 0.0
+        else:
+            features['punctuation_variance_per_sentence'] = 0.0
+
+        # Feature 15: Lexical repetition across consecutive sentences (AI repeats words)
+        lexical_overlap_scores = []
+        for i in range(len(sentences) - 1):
+            curr_words = set(re.findall(r'\b\w+\b', sentences[i].lower(), re.UNICODE))
+            next_words = set(re.findall(r'\b\w+\b', sentences[i + 1].lower(), re.UNICODE))
+            if curr_words and next_words:
+                overlap = len(curr_words & next_words) / len(curr_words | next_words)
+                lexical_overlap_scores.append(overlap)
+
+        if lexical_overlap_scores:
+            features['consecutive_lexical_overlap'] = sum(lexical_overlap_scores) / len(lexical_overlap_scores)
+        else:
+            features['consecutive_lexical_overlap'] = 0.0
+
+        # Feature 16: Sentence complexity variance (mix of simple and complex)
+        # Measure by unique punctuation + word length in each sentence
+        complexity_scores = []
+        for sent in sentences:
+            sent_words = re.findall(r'\b\w+\b', sent, re.UNICODE)
+            if sent_words:
+                avg_word_len = sum(len(w) for w in sent_words) / len(sent_words)
+                punct_count = sum(1 for char in sent if char in ',;:—-()[]')
+                complexity = avg_word_len + punct_count * 0.5  # Weight punctuation
+                complexity_scores.append(complexity)
+
+        if complexity_scores and len(complexity_scores) > 1:
+            mean_complexity = sum(complexity_scores) / len(complexity_scores)
+            if mean_complexity > 0:
+                complexity_variance = sum((c - mean_complexity) ** 2 for c in complexity_scores) / len(complexity_scores)
+                features['sentence_complexity_variance'] = (complexity_variance ** 0.5) / mean_complexity
+            else:
+                features['sentence_complexity_variance'] = 0.0
+        else:
+            features['sentence_complexity_variance'] = 0.0
+
         return features

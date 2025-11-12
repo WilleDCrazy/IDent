@@ -2,7 +2,7 @@
 
 ## Overview
 
-IDent extracts **79+ features** from Swedish texts for comprehensive style analysis, including AI-detection features.
+IDent extracts **89+ features** from Swedish texts for comprehensive style analysis, including advanced AI-detection features.
 
 ## Feature Categories
 
@@ -96,10 +96,11 @@ Advanced statistical measures:
 9. `word_frequency_variance` - Variance in word frequencies
 10. `burstiness` - Burstiness measure (word usage patterns)
 
-### 6. AI-Detection Features (12 features)
+### 6. AI-Detection Features (22 features)
 
 Features commonly associated with AI-generated text:
 
+**Basic AI Patterns:**
 1. `em_dashes_per_sentence` - Em dash usage per sentence (AI tends to overuse)
 2. `em_dash_frequency` - Overall em dash frequency in text
 3. `lines_per_sentence` - Average lines/paragraphs per sentence
@@ -114,6 +115,16 @@ Features commonly associated with AI-generated text:
 12. `sentence_length_uniformity` - Coefficient of variation in sentence lengths (lower = more uniform)
 13. `complex_punctuation_frequency` - Complex punctuation patterns (e.g., "...!", "?!")
 14. `parenthetical_per_sentence` - Parenthetical expressions per sentence
+
+**NEW: Sentence-Level Variability (Human text has MORE variability):**
+15. `avg_punct_types_per_sentence` - Average number of different punctuation types per sentence
+16. `punct_diversity_variance` - Variance in punctuation diversity across sentences
+17. `avg_word_length_var_per_sentence` - Average word length variability within each sentence
+18. `sentence_rhythm_variability` - Frequency of significant rhythm changes between sentences
+19. `consecutive_sentence_similarity` - Similarity in length between consecutive sentences (AI higher)
+20. `punctuation_variance_per_sentence` - Variability in punctuation counts across sentences
+21. `consecutive_lexical_overlap` - Word overlap between consecutive sentences (AI higher)
+22. `sentence_complexity_variance` - Variance in sentence complexity across text
 
 ## Usage Examples
 
