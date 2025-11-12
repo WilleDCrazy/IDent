@@ -4,12 +4,13 @@ A comprehensive Python library for analyzing and comparing Swedish text writing 
 
 ## Features
 
-- **30+ Text Signals**: Comprehensive analysis including:
+- **79+ Text Signals**: Comprehensive analysis including:
   - Lexical features (vocabulary richness, word lengths, etc.)
   - Syntactic features (sentence structure, punctuation patterns)
   - Character-level analysis (character distributions, Swedish character usage)
   - Stylometric features (type-token ratio, hapax legomena, Yule's K)
   - Swedish-specific features (compound words, Swedish character frequency)
+  - **NEW: AI-detection features** (em dashes, transition words, sentence patterns, passive voice, etc.)
 
 - **Style Profiling**: Create detailed profiles of writing styles from texts (400+ words recommended)
 

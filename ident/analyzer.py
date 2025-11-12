@@ -10,6 +10,7 @@ from ident.features.syntactic import SyntacticFeatures
 from ident.features.character import CharacterFeatures
 from ident.features.swedish import SwedishFeatures
 from ident.features.stylometric import StylometricFeatures
+from ident.features.ai_detection import AIDetectionFeatures
 
 
 class StyleAnalyzer:
@@ -35,6 +36,7 @@ class StyleAnalyzer:
         self.character_extractor = CharacterFeatures()
         self.swedish_extractor = SwedishFeatures()
         self.stylometric_extractor = StylometricFeatures()
+        self.ai_detection_extractor = AIDetectionFeatures()
 
     def analyze(self, text: str, name: str = "Text") -> TextProfile:
         """
@@ -83,6 +85,10 @@ class StyleAnalyzer:
         # Stylometric features
         stylometric_features = self.stylometric_extractor.extract(text, words, sentences)
         features.update(stylometric_features)
+
+        # AI-detection features
+        ai_detection_features = self.ai_detection_extractor.extract(text, words, sentences)
+        features.update(ai_detection_features)
 
         # Create and return profile
         profile = TextProfile(
