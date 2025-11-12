@@ -2,7 +2,7 @@
 
 ## Overview
 
-IDent extracts **67+ features** from Swedish texts for comprehensive style analysis.
+IDent extracts **89+ features** from Swedish texts for comprehensive style analysis, including advanced AI-detection features.
 
 ## Feature Categories
 
@@ -96,6 +96,36 @@ Advanced statistical measures:
 9. `word_frequency_variance` - Variance in word frequencies
 10. `burstiness` - Burstiness measure (word usage patterns)
 
+### 6. AI-Detection Features (22 features)
+
+Features commonly associated with AI-generated text:
+
+**Basic AI Patterns:**
+1. `em_dashes_per_sentence` - Em dash usage per sentence (AI tends to overuse)
+2. `em_dash_frequency` - Overall em dash frequency in text
+3. `lines_per_sentence` - Average lines/paragraphs per sentence
+4. `newline_frequency` - Newline characters per sentence
+5. `transition_word_frequency` - Transition word usage per sentence (however, moreover, etc.)
+6. `transition_word_ratio` - Ratio of transition words to total words
+7. `sentence_starter_diversity` - Variety in sentence opening words
+8. `sentence_starter_repetition` - Repetition of most common sentence starter
+9. `passive_voice_frequency` - Passive voice constructions per sentence
+10. `adverb_frequency` - Qualifying adverb usage per sentence (particularly, significantly, etc.)
+11. `adverb_ratio` - Ratio of qualifying adverbs to total words
+12. `sentence_length_uniformity` - Coefficient of variation in sentence lengths (lower = more uniform)
+13. `complex_punctuation_frequency` - Complex punctuation patterns (e.g., "...!", "?!")
+14. `parenthetical_per_sentence` - Parenthetical expressions per sentence
+
+**NEW: Sentence-Level Variability (Human text has MORE variability):**
+15. `avg_punct_types_per_sentence` - Average number of different punctuation types per sentence
+16. `punct_diversity_variance` - Variance in punctuation diversity across sentences
+17. `avg_word_length_var_per_sentence` - Average word length variability within each sentence
+18. `sentence_rhythm_variability` - Frequency of significant rhythm changes between sentences
+19. `consecutive_sentence_similarity` - Similarity in length between consecutive sentences (AI higher)
+20. `punctuation_variance_per_sentence` - Variability in punctuation counts across sentences
+21. `consecutive_lexical_overlap` - Word overlap between consecutive sentences (AI higher)
+22. `sentence_complexity_variance` - Variance in sentence complexity across text
+
 ## Usage Examples
 
 ### Accessing Features
@@ -168,6 +198,14 @@ plot_feature_comparison(
 - **sentence_length_variance**: Higher = more varied writing style
 - **punctuation_frequency**: Higher = more complex punctuation usage
 - **entropy**: Higher = more unpredictable/creative text
+
+### AI Detection Indicators
+- **em_dashes_per_sentence**: AI text often uses more em dashes (>0.1 may indicate AI)
+- **transition_word_frequency**: Higher frequency suggests AI-like writing (>0.3 typical for AI)
+- **sentence_starter_diversity**: Lower diversity suggests repetitive AI patterns (0.7-0.9 typical for humans)
+- **sentence_length_uniformity**: Lower values indicate more uniform AI-like structure (0.3-0.5 for AI, 0.6-1.0 for humans)
+- **passive_voice_frequency**: Higher values may indicate AI formality (>0.5 suggests AI tendencies)
+- **adverb_frequency**: High qualifying adverb usage is AI characteristic (>0.2 per sentence)
 
 ## Robustness
 

@@ -16,17 +16,15 @@ def visualize_profiles_2d(profiles: List[TextProfile],
                           save_path: Optional[str] = None,
                           **kwargs):
     """
-    Visualize text profiles in 2D space using dimensionality reduction.
+    Visualize text profiles in 2D space using PCA dimensionality reduction.
 
     Args:
         profiles: List of TextProfile objects
-        method: Dimensionality reduction method ('pca' or 'tsne')
+        method: Dimensionality reduction method (only 'pca' supported - t-SNE removed due to poor performance)
         title: Plot title
         figsize: Figure size (width, height)
         save_path: Optional path to save the figure
-        **kwargs: Additional arguments for the reduction algorithm
-            For PCA: no additional args commonly used
-            For t-SNE: perplexity (default: 30), learning_rate (default: 200)
+        **kwargs: Additional arguments (reserved for future extensions)
     """
     if len(profiles) < 2:
         raise ValueError("At least 2 profiles required for visualization")
@@ -50,31 +48,18 @@ def visualize_profiles_2d(profiles: List[TextProfile],
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
-    # Apply dimensionality reduction
-    if method.lower() == 'pca':
-        from sklearn.decomposition import PCA
-        reducer = PCA(n_components=2)
-        X_2d = reducer.fit_transform(X_scaled)
+    # Apply PCA dimensionality reduction
+    if method.lower() != 'pca':
+        print(f"Warning: Only 'pca' is supported. t-SNE was removed due to poor performance. Using PCA.")
 
-        # Get variance explained
-        var_explained = reducer.explained_variance_ratio_
-        xlabel = f'PC1 ({var_explained[0]:.1%} variance)'
-        ylabel = f'PC2 ({var_explained[1]:.1%} variance)'
+    from sklearn.decomposition import PCA
+    reducer = PCA(n_components=2)
+    X_2d = reducer.fit_transform(X_scaled)
 
-    elif method.lower() == 'tsne':
-        from sklearn.manifold import TSNE
-        perplexity = kwargs.get('perplexity', min(30, len(profiles) - 1))
-        learning_rate = kwargs.get('learning_rate', 200)
-
-        reducer = TSNE(n_components=2, perplexity=perplexity,
-                      learning_rate=learning_rate, random_state=42)
-        X_2d = reducer.fit_transform(X_scaled)
-
-        xlabel = 't-SNE Dimension 1'
-        ylabel = 't-SNE Dimension 2'
-
-    else:
-        raise ValueError(f"Unknown method: {method}. Use 'pca' or 'tsne'")
+    # Get variance explained
+    var_explained = reducer.explained_variance_ratio_
+    xlabel = f'PC1 ({var_explained[0]:.1%} variance)'
+    ylabel = f'PC2 ({var_explained[1]:.1%} variance)'
 
     # Create plot
     fig, ax = plt.subplots(figsize=figsize)
